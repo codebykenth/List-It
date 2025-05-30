@@ -17,18 +17,28 @@ api.interceptors.request.use((config) => {
 });
 
 export const authApiService = {
-  async postData(endpoint: string, data: FormData) {
-    const response = await api.post(endpoint, data);
+  async postData(endpoint: string, data: object | FormData) {
+    const headers =
+      data instanceof FormData
+        ? { "Content-Type": "multipart/form-data" }
+        : { "Content-Type": "application/json" };
+
+    const response = await api.post(endpoint, data, { headers });
     return response.data;
   },
 
-  async getData(endpoint: string, params?: Record<string, FormData>) {
+  async getData(endpoint: string, params?: object) {
     const response = await api.get(endpoint, { params });
     return response.data;
   },
 
-  async putData(endpoint: string, data: FormData) {
-    const response = await api.put(endpoint, data);
+  async putData(endpoint: string, data: object | FormData) {
+    const headers =
+      data instanceof FormData
+        ? { "Content-Type": "multipart/form-data" }
+        : { "Content-Type": "application/json" };
+
+    const response = await api.put(endpoint, data, { headers });
     return response.data;
   },
 

@@ -2,7 +2,9 @@ import Header from "../components/Header";
 import Navigation from "../components/Navigation";
 import FacebookLogo from "../assets/images/Facebook_Logo_Primary.png";
 
+
 export default function Home() {
+ 
   return (
     <div>
       <Navigation />
