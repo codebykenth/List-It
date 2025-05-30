@@ -45,11 +45,11 @@ export default function Login() {
   };
 
   const handleProvider = async (provider: string) => {
-    // e.preventDefault();
-
     try {
-      const res = await authApiService.getData(`/${provider}`);
-      console.log(res);
+      const response = await authApiService.getData(`/auth/${provider}`);
+      if (response.url) {
+        window.location.href = response.url;
+      }
     } catch (error: unknown) {
       console.error("Error logging in user:", error);
     }
@@ -88,32 +88,33 @@ export default function Login() {
           >
             Login
           </button>
-          <div>or</div>
+          <div className="text-center mt-4">or</div>
           {/* Google */}
           <button
-            type="submit"
-            className="bg-slate-700 text-white block p-2 mt-4"
-            onClick={() => handleProvider('google')}
+            type="button" // Changed from 'submit' to 'button'
+            className="bg-slate-700 text-white block p-2 mt-4 w-full"
+            onClick={() => handleProvider("google")}
           >
             <div className="flex justify-center gap-4 items-center">
-              <img src={GoogleLogo} alt="Facebook Logo" className="w-8 " />
+              <img src={GoogleLogo} alt="Google Logo" className="w-4" />
               <span>Sign in with Google</span>
             </div>
           </button>
+
           {/* Facebook */}
           <button
-            onClick={() => handleProvider('facebook')}
-            type="submit"
-            className="bg-slate-700 text-white block p-2 mt-4"
+            type="button" // Changed from 'submit' to 'button'
+            className="bg-slate-700 text-white block p-2 mt-4 w-full"
+            onClick={() => handleProvider("facebook")}
           >
             <div className="flex justify-center gap-4 items-center">
-              <img src={FacebookLogo} alt="Facebook Logo" className="w-8" />
+              <img src={FacebookLogo} alt="Facebook Logo" className="w-4" />
               <span>Sign in with Facebook</span>
             </div>
           </button>
         </form>{" "}
       </div>
-      <div>
+      <div className="mt-4">
         Don't have and account?{" "}
         <Link to="/signup" className="underline">
           Sign up here

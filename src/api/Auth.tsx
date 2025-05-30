@@ -17,6 +17,7 @@ api.interceptors.request.use((config) => {
 });
 
 export const authApiService = {
+  
   async postData(endpoint: string, data: object | FormData) {
     const headers =
       data instanceof FormData
