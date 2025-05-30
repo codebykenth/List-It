@@ -1,5 +1,6 @@
 import Header from "../components/Header";
 import Navigation from "../components/Navigation";
+import FacebookLogo from "../assets/images/Facebook_Logo_Primary.png";
 
 export default function Home() {
   return (
@@ -64,8 +65,8 @@ export default function Home() {
         {/* Card Image */}
         <div className="flex justify-center">
           <img
-            src="../src/assets/7123025_logo_google_g_icon.png"
-            alt=""
+            src={FacebookLogo}
+            alt="Task Image"
             className="size-52 object-cover"
           />
         </div>
