@@ -46,6 +46,13 @@ import Input from "../components/Input";
 import { authApiService } from "../api/Auth";
 import { useState } from "react";
 import type { FormEvent } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -54,7 +61,7 @@ export default function Register() {
     password: "",
     password_confirmation: "",
   });
-
+  const [isLoading, setIsLoading] = useState(false);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -64,6 +71,7 @@ export default function Register() {
   };
 
   const handleRegister = async (e: FormEvent) => {
+    setIsLoading(true);
     e.preventDefault();
     try {
       // Create a new FormData instance
@@ -78,6 +86,8 @@ export default function Register() {
       console.log("User registered successfully:", newUser);
     } catch (error: unknown) {
       console.error("Error registering user:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -127,6 +137,17 @@ export default function Register() {
           Login here
         </Link>
       </div>
+      <Dialog open={isLoading} onOpenChange={setIsLoading}>
+        <DialogContent className="sm:max-w-[425px]" showCloseButton={false}>
+          <DialogHeader>
+            <DialogTitle>Signing up...</DialogTitle>
+            <DialogDescription className="flex flex-col items-center gap-4">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+              <p>Please wait while we process your account creation...</p>
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

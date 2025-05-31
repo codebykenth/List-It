@@ -4,6 +4,13 @@ import FacebookLogo from "../assets/images/Facebook_Logo_Primary.png";
 import GoogleLogo from "../assets/images/7123025_logo_google_g_icon.png";
 import { useState, type FormEvent } from "react";
 import { authApiService } from "../api/Auth";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 export default function Login() {
   // Placeholder for login handling logic
@@ -13,7 +20,7 @@ export default function Login() {
     password: "",
   });
   const navigate = useNavigate();
-
+  const [isLoading, setIsLoading] = useState(false);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -24,7 +31,7 @@ export default function Login() {
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
-
+    setIsLoading(true);
     try {
       // Create a new FormData instance
       const data = new FormData();
@@ -41,10 +48,13 @@ export default function Login() {
       navigate("/");
     } catch (error: unknown) {
       console.error("Error logging in user:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleProvider = async (provider: string) => {
+    setIsLoading(true);
     try {
       const response = await authApiService.getData(`/auth/${provider}`);
       if (response.url) {
@@ -52,6 +62,8 @@ export default function Login() {
       }
     } catch (error: unknown) {
       console.error("Error logging in user:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
@@ -120,6 +132,18 @@ export default function Login() {
           Sign up here
         </Link>
       </div>
+
+      <Dialog open={isLoading} onOpenChange={setIsLoading}>
+        <DialogContent className="sm:max-w-[425px]" showCloseButton={false}>
+          <DialogHeader>
+            <DialogTitle>Logging in...</DialogTitle>
+            <DialogDescription className="flex flex-col items-center gap-4">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+              <p>Please wait while we process your login...</p>
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
