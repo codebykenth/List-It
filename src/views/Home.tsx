@@ -1,3 +1,5 @@
+"use client";
+import * as React from "react";
 import Header from "../components/Header";
 import Navigation from "../components/Navigation";
 import { useEffect, useState } from "react";
@@ -37,8 +39,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import FileInput from "@/components/FileInput";
+import { DayPicker, getDefaultClassNames } from "react-day-picker";
+
+import "react-day-picker/style.css";
 
 export default function Home() {
+  const defaultClassNames = getDefaultClassNames();
+  
   const [user, setUser] = useState<User | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [tasksLoading, setTasksLoading] = useState(true);
@@ -379,7 +386,7 @@ export default function Home() {
     <div>
       <Navigation />
       <Header name={user?.name} photoUrl={user?.profile_image_url || null} />
-      <div className="bg-slate-200 p-2 space-y-2">
+      <div className="bg-slate-200 p-4 space-y-2">
         <div className=" w-full flex justify-between">
           <label htmlFor="" className="w-1/3">
             Category
@@ -387,7 +394,7 @@ export default function Home() {
           <select
             name="category"
             id=""
-            className="w-2/3"
+            className="w-2/3 cursor-pointer"
             value={selectedCategory}
             onChange={handleCategoryFilterChange}
           >
@@ -425,7 +432,7 @@ export default function Home() {
           <select
             name="priority"
             id=""
-            className="w-2/3"
+            className="w-2/3 cursor-pointer"
             value={selectedPriority}
             onChange={handlePriorityFilterChange}
           >
@@ -461,7 +468,7 @@ export default function Home() {
           </Button>
         </div>
       )} */}
-      <div className="flex justify-between p-2">
+      <div className="flex justify-between p-4">
         <h1 className="text-2xl">All Tasks</h1>
         <Dialog open={isAddTaskOpen} onOpenChange={setIsAddTaskOpen}>
           <DialogTrigger asChild>
@@ -477,7 +484,7 @@ export default function Home() {
             <form onSubmit={handleSubmit}>
               <DialogHeader>
                 <DialogTitle>Add Task</DialogTitle>
-                <DialogDescription>
+                <DialogDescription className="text-slate-700 mb-4">
                   Fill in the details below to add a new task.
                 </DialogDescription>
               </DialogHeader>
@@ -533,14 +540,24 @@ export default function Home() {
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
                       <div className="p-0">
-                        <Calendar
+                        <DayPicker
+                          animate
                           mode="single"
                           selected={selectedDateTime ?? undefined}
                           onSelect={handleDateTimeSelect}
-                          initialFocus
+                          classNames={{
+                            today: `border-slate-800 rounded-full`, // Add a border to today's date
+                            selected: `bg-slate-800 border-amber-500 text-white rounded-full`, // Highlight the selected day
+                            root: `${defaultClassNames.root} shadow-lg p-5`, // Add a shadow to the root element
+                            chevron: `fill-slate-800 rounded-full` // Change the color of the chevron
+                          }}
                           disabled={(date) => date < today}
-                          fromDate={today}
                         />
+                        {/* <Calendar
+                          mode="single"
+                          selected={selectedDateTime ?? undefined}
+                          onSelect={handleDateTimeSelect}
+                        /> */}
                         <div className="p-3 border-t border-border">
                           <Input
                             type="time"
