@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 type HeaderProps = {
   name?: string;
   email?: string;
-  photoUrl?: string;
+  photoUrl?: string | null;
 };
 function Header({ name, photoUrl }: HeaderProps) {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
@@ -31,11 +31,13 @@ function Header({ name, photoUrl }: HeaderProps) {
   return (
     <div>
       <div className="flex items-center gap-2 p-2 bg-slate-300  text-slate-900">
-        <img
-          src={photoUrl}
-          alt="Profile Image"
-          className="size-24 rounded-full object-cover border-2 border-slate-600"
-        />
+        {photoUrl && (
+          <img
+            src={photoUrl}
+            alt="Profile Image"
+            className="size-24 rounded-full object-cover border-2 border-slate-600"
+          />
+        )}
         <div>
           <div className="text-2xl font-bold">Hi, {name}</div>
           <p className="text-sm text-slate-600">{formattedDateTime}</p>

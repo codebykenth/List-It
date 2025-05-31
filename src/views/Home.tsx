@@ -378,7 +378,7 @@ export default function Home() {
   return (
     <div>
       <Navigation />
-      <Header name={user?.name} photoUrl={user?.profile_image_url} />
+      <Header name={user?.name} photoUrl={user?.profile_image_url || null} />
       <div className="bg-slate-200 p-2 space-y-2">
         <div className=" w-full flex justify-between">
           <label htmlFor="" className="w-1/3">

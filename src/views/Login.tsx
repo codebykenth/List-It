@@ -72,28 +72,31 @@ export default function Login() {
     }
   };
   return (
-    <div className="sm:max-w-5xl md:max-w-7xl mx-auto p-3 md:px-40">
-      <h1 className="text-center sm: text-2xl md:text-3xl">List It</h1>
-      <div className="flex flex-col gap-2">
-        <form onSubmit={handleLogin}>
-          <NormalInput
-            labelName="Email"
-            inputName="email"
-            inputType="email"
-            inputValue={formData.email}
-            onChange={handleChange}
-            // isRequired={true}
-          />
-          <NormalInput
-            labelName="Password"
-            inputName="password"
-            inputType="password"
-            inputValue={formData.password}
-            onChange={handleChange}
-            // isRequired={true}
-          />
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="sm:max-w-md w-full mx-auto p-6 space-y-8">
+        <h1 className="text-center text-2xl md:text-3xl font-semibold">
+          List It
+        </h1>
+        <div className="flex flex-col gap-2">
+          <form onSubmit={handleLogin} className="space-y-4">
+            <NormalInput
+              labelName="Email"
+              inputName="email"
+              inputType="email"
+              inputValue={formData.email}
+              onChange={handleChange}
+              // isRequired={true}
+            />
+            <NormalInput
+              labelName="Password"
+              inputName="password"
+              inputType="password"
+              inputValue={formData.password}
+              onChange={handleChange}
+              // isRequired={true}
+            />
 
-          {/* <button
+            {/* <button
           type="submit"
           className="block text-center w-full bg-slate-700 text-white mt-4 p-2"
         >
@@ -101,89 +104,94 @@ export default function Login() {
         </button>
          */}
 
-          <button
-            type="submit"
-            className="cursor-pointer block text-center w-full bg-slate-700 text-white mt-4 p-2"
-          >
-            Login
-          </button>
+            <button
+              type="submit"
+              className="cursor-pointer block text-center w-full bg-slate-700 text-white mt-4 p-2"
+            >
+              Login
+            </button>
 
-          <div className="mt-4">
-            Don't have and account?{" "}
-            <Link to="/signup" className="underline">
-              Sign up here
-            </Link>
-          </div>
-
-          <div className="text-center mt-4">or</div>
-          {/* Google */}
-          <button
-            type="button" // Changed from 'submit' to 'button'
-            className="cursor-pointer bg-slate-700 text-white block p-2 mt-4 w-full"
-            onClick={() => handleProvider("google")}
-          >
-            <div className="flex justify-center gap-4 items-center">
-              <img src={GoogleLogo} alt="Google Logo" className="w-4" />
-              <span>Sign in with Google</span>
+            <div className="mt-4">
+              Don't have and account?{" "}
+              <Link to="/signup" className="underline">
+                Sign up here
+              </Link>
             </div>
-          </button>
 
-          {/* Facebook */}
-          <button
-            type="button" // Changed from 'submit' to 'button'
-            className="cursor-pointer bg-slate-700 text-white block p-2 mt-4 w-full"
-            onClick={() => handleProvider("facebook")}
-          >
-            <div className="flex justify-center gap-4 items-center">
-              <img src={FacebookLogo} alt="Facebook Logo" className="w-4" />
-              <span>Sign in with Facebook</span>
-            </div>
-          </button>
-        </form>{" "}
-      </div>
-      {/* <div className="mt-4">
+            <div className="text-center mt-4">or</div>
+            {/* Google */}
+            <button
+              type="button" // Changed from 'submit' to 'button'
+              className="cursor-pointer bg-slate-700 text-white block p-2 mt-4 w-full"
+              onClick={() => handleProvider("google")}
+            >
+              <div className="flex justify-center gap-4 items-center">
+                <img src={GoogleLogo} alt="Google Logo" className="w-4" />
+                <span>Sign in with Google</span>
+              </div>
+            </button>
+
+            {/* Facebook */}
+            <button
+              type="button" // Changed from 'submit' to 'button'
+              className="cursor-pointer bg-slate-700 text-white block p-2 mt-4 w-full"
+              onClick={() => handleProvider("facebook")}
+            >
+              <div className="flex justify-center gap-4 items-center">
+                <img src={FacebookLogo} alt="Facebook Logo" className="w-4" />
+                <span>Sign in with Facebook</span>
+              </div>
+            </button>
+          </form>{" "}
+        </div>
+        {/* <div className="mt-4">
         Don't have and account?{" "}
         <Link to="/signup" className="underline">
           Sign up here
         </Link>
       </div> */}
 
-      <Dialog open={isLoading} onOpenChange={setIsLoading}>
-        <DialogContent className="sm:max-w-[425px]" showCloseButton={false}>
-          <DialogHeader>
-            <DialogTitle>Logging in...</DialogTitle>
-            <DialogDescription className="flex flex-col items-center gap-4">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
-              <p>Please wait while we process your login...</p>
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+        <Dialog open={isLoading} onOpenChange={setIsLoading}>
+          <DialogContent className="sm:max-w-[425px]" showCloseButton={false}>
+            <DialogHeader>
+              <DialogTitle>Logging in...</DialogTitle>
+              <DialogDescription className="flex flex-col items-center gap-4">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+                <p>Please wait while we process your login...</p>
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
 
-      <Dialog open={isError} onOpenChange={setIsError}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle className="text-destructive">Login Failed</DialogTitle>
-            <DialogDescription className="flex flex-col items-center gap-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-8 w-8 text-destructive"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              <p>Login failed. Please check your credentials and try again.</p>
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+        <Dialog open={isError} onOpenChange={setIsError}>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle className="text-destructive">
+                Login Failed
+              </DialogTitle>
+              <DialogDescription className="flex flex-col items-center gap-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-8 w-8 text-destructive"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <p>
+                  Login failed. Please check your credentials and try again.
+                </p>
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+      </div>
     </div>
   );
 }

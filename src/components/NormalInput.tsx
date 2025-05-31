@@ -22,7 +22,7 @@ function NormalInput({
       </label>
       <input
         type={inputType}
-        className="bg-slate-200 rounded-md h-10"
+        className="bg-slate-200 rounded-md h-10 px-4 py-2"
         name={inputName}
         value={inputValue}
         onChange={onChange}
