@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { authApiService } from "../api/Auth";
+import { authApiService } from "../api/ApiService";
 
 export default function AuthCallback() {
   const [loading, setLoading] = useState(true);

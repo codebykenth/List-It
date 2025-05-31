@@ -1,16 +1,46 @@
 import Header from "../components/Header";
 import Navigation from "../components/Navigation";
 import FacebookLogo from "../assets/images/Facebook_Logo_Primary.png";
+import { useEffect, useState } from "react";
+import { authApiService } from "@/api/ApiService";
 
+interface User {
+  name: string;
+  email: string;
+  profile_image_url: string;
+}
 
 export default function Home() {
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  
- 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await authApiService.getData("/profile");
+        setUser(response.data);
+      } catch (error) {
+        setError(`Failed to fetch user data: ${error}`);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  if (isLoading) {
+    return <div className="animate-spin">Loading...</div>;
+  }
+  if (error) {
+    return <div className="text-red-700">Error: {error}</div>;
+  }
+
   return (
     <div>
       <Navigation />
-      <Header email="johndoe@email.com" />
+      <Header email={user?.email} photoUrl={user?.profile_image_url} />
       <div className="bg-slate-200 p-2 space-y-2">
         <div className=" w-full flex justify-between">
           <label htmlFor="" className="w-1/3">

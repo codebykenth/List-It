@@ -43,7 +43,7 @@
 // }
 import { Link } from "react-router-dom";
 import Input from "../components/Input";
-import { authApiService } from "../api/Auth";
+import { authApiService } from "../api/ApiService";
 import { useState } from "react";
 import type { FormEvent } from "react";
 import {
@@ -62,6 +62,7 @@ export default function Register() {
     password_confirmation: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -72,6 +73,7 @@ export default function Register() {
 
   const handleRegister = async (e: FormEvent) => {
     setIsLoading(true);
+    setIsError(false);
     e.preventDefault();
     try {
       // Create a new FormData instance
@@ -85,6 +87,7 @@ export default function Register() {
       const newUser = await authApiService.postData("/register", data);
       console.log("User registered successfully:", newUser);
     } catch (error: unknown) {
+      setIsError(true);
       console.error("Error registering user:", error);
     } finally {
       setIsLoading(false);
@@ -101,6 +104,7 @@ export default function Register() {
           inputType="text"
           inputValue={formData.name}
           onChange={handleChange}
+          isRequired={true}
         />
         <Input
           labelName="Email"
@@ -108,6 +112,7 @@ export default function Register() {
           inputType="email"
           inputValue={formData.email}
           onChange={handleChange}
+          isRequired={true}
         />
         <Input
           labelName="Password"
@@ -115,6 +120,7 @@ export default function Register() {
           inputType="password"
           inputValue={formData.password}
           onChange={handleChange}
+          isRequired={true}
         />
         <Input
           labelName="Confirm Password"
@@ -122,16 +128,17 @@ export default function Register() {
           inputType="password"
           inputValue={formData.password_confirmation}
           onChange={handleChange}
+          isRequired={true}
         />
 
         <button
           type="submit"
-          className="block text-center w-full bg-slate-700 text-white mt-4 p-2"
+          className="cursor-pointer block text-center w-full bg-slate-700 text-white mt-4 p-2"
         >
           Signup
         </button>
       </form>
-      <div>
+      <div className="mt-4">
         Already have an account?{" "}
         <Link to="/login" className="underline">
           Login here
@@ -144,6 +151,31 @@ export default function Register() {
             <DialogDescription className="flex flex-col items-center gap-4">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
               <p>Please wait while we process your account creation...</p>
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+
+       <Dialog open={isError} onOpenChange={setIsError}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle className="text-destructive">Sign up Failed</DialogTitle>
+            <DialogDescription className="flex flex-col items-center gap-4">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-8 w-8 text-destructive"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <p>Sign up failed. Please fill up all fields.</p>
             </DialogDescription>
           </DialogHeader>
         </DialogContent>

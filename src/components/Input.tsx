@@ -3,13 +3,22 @@ type CredentialsProps = {
   inputName: string;
   inputType: string;
   inputValue: string | number | readonly string[] | undefined;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void; 
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  isRequired?: boolean;
 };
-function Input({ labelName, inputName, inputType, inputValue, onChange }: CredentialsProps) {
+function Input({
+  labelName,
+  inputName,
+  inputType,
+  inputValue,
+  onChange,
+  isRequired,
+}: CredentialsProps) {
   return (
     <div className="flex flex-col">
       <label htmlFor="" className="text-sm">
         {labelName}
+        {isRequired && <span className="text-red-700"> *</span>} 
       </label>
       <input
         type={inputType}
