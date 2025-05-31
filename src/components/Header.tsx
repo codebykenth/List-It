@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { clearInterval } from "timers";
 
 type HeaderProps = {
+  name?: string;
   email?: string;
   photoUrl?: string;
 };
-function Header({ email, photoUrl }: HeaderProps) {
+function Header({ name, photoUrl }: HeaderProps) {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
   useEffect(() => {
@@ -30,11 +30,15 @@ function Header({ email, photoUrl }: HeaderProps) {
 
   return (
     <div>
-      <div className="flex items-center gap-2 p-2 bg-slate-400  text-slate-900">
-        <img src={photoUrl} alt="Profile Image" />
+      <div className="flex items-center gap-2 p-2 bg-slate-300  text-slate-900">
+        <img
+          src={photoUrl}
+          alt="Profile Image"
+          className="size-24 rounded-full object-cover border-2 border-slate-600"
+        />
         <div>
-          <div>Hi, {email}</div>
-          <p>{formattedDateTime}</p>
+          <div className="text-2xl font-bold">Hi, {name}</div>
+          <p className="text-sm text-slate-600">{formattedDateTime}</p>
         </div>
       </div>
     </div>

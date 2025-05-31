@@ -42,7 +42,7 @@
 //   );
 // }
 import { Link } from "react-router-dom";
-import Input from "../components/Input";
+import NormalInput from "../components/NormalInput";
 import { authApiService } from "../api/ApiService";
 import { useState } from "react";
 import type { FormEvent } from "react";
@@ -98,7 +98,7 @@ export default function Register() {
     <div className="sm:max-w-5xl md:max-w-7xl mx-auto p-3 md:px-40">
       <h1 className="text-center sm: text-2xl md:text-3xl">List It</h1>
       <form onSubmit={handleRegister} className="flex flex-col gap-2">
-        <Input
+        <NormalInput
           labelName="Name"
           inputName="name"
           inputType="text"
@@ -106,7 +106,7 @@ export default function Register() {
           onChange={handleChange}
           isRequired={true}
         />
-        <Input
+        <NormalInput
           labelName="Email"
           inputName="email"
           inputType="email"
@@ -114,7 +114,7 @@ export default function Register() {
           onChange={handleChange}
           isRequired={true}
         />
-        <Input
+        <NormalInput
           labelName="Password"
           inputName="password"
           inputType="password"
@@ -122,7 +122,7 @@ export default function Register() {
           onChange={handleChange}
           isRequired={true}
         />
-        <Input
+        <NormalInput
           labelName="Confirm Password"
           inputName="password_confirmation"
           inputType="password"
@@ -156,10 +156,12 @@ export default function Register() {
         </DialogContent>
       </Dialog>
 
-       <Dialog open={isError} onOpenChange={setIsError}>
+      <Dialog open={isError} onOpenChange={setIsError}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle className="text-destructive">Sign up Failed</DialogTitle>
+            <DialogTitle className="text-destructive">
+              Sign up Failed
+            </DialogTitle>
             <DialogDescription className="flex flex-col items-center gap-4">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

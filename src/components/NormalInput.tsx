@@ -6,7 +6,7 @@ type CredentialsProps = {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isRequired?: boolean;
 };
-function Input({
+function NormalInput({
   labelName,
   inputName,
   inputType,
@@ -31,4 +31,4 @@ function Input({
   );
 }
 
-export default Input;
+export default NormalInput;

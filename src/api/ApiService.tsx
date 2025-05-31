@@ -17,14 +17,24 @@ api.interceptors.request.use((config) => {
 });
 
 export const authApiService = {
-  
   async postData(endpoint: string, data: object | FormData) {
-    const headers =
-      data instanceof FormData
-        ? { "Content-Type": "multipart/form-data" }
-        : { "Content-Type": "application/json" };
+    let config = {};
 
-    const response = await api.post(endpoint, data, { headers });
+    if (data instanceof FormData) {
+      config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+    } else {
+      config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+    }
+
+    const response = await api.post(endpoint, data, config);
     return response.data;
   },
 

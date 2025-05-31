@@ -1,5 +1,4 @@
 import { Link, useNavigate } from "react-router-dom";
-import Input from "../components/Input";
 import FacebookLogo from "../assets/images/Facebook_Logo_Primary.png";
 import GoogleLogo from "../assets/images/7123025_logo_google_g_icon.png";
 import { useState, type FormEvent } from "react";
@@ -11,6 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import NormalInput from "../components/NormalInput";
 
 export default function Login() {
   // Placeholder for login handling logic
@@ -76,7 +76,7 @@ export default function Login() {
       <h1 className="text-center sm: text-2xl md:text-3xl">List It</h1>
       <div className="flex flex-col gap-2">
         <form onSubmit={handleLogin}>
-          <Input
+          <NormalInput
             labelName="Email"
             inputName="email"
             inputType="email"
@@ -84,7 +84,7 @@ export default function Login() {
             onChange={handleChange}
             // isRequired={true}
           />
-          <Input
+          <NormalInput
             labelName="Password"
             inputName="password"
             inputType="password"

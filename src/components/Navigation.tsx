@@ -33,7 +33,9 @@ function Navigation() {
     <div>
       <nav>
         <div className="flex justify-between w-full bg-slate-700 text-white p-4">
-          <Link to="/">Task It</Link>
+          <Link to="/" className="text-2xl font-bold">
+            Task It
+          </Link>
           <button onClick={handleLogout} className="cursor-pointer">
             Logout
           </button>
