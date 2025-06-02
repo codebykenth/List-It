@@ -29,7 +29,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Calendar } from "@/components/ui/calendar";
 import { format, set } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -45,7 +44,7 @@ import "react-day-picker/style.css";
 
 export default function Home() {
   const defaultClassNames = getDefaultClassNames();
-  
+
   const [user, setUser] = useState<User | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [tasksLoading, setTasksLoading] = useState(true);
@@ -480,7 +479,7 @@ export default function Home() {
               Add Task
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
             <form onSubmit={handleSubmit}>
               <DialogHeader>
                 <DialogTitle>Add Task</DialogTitle>
@@ -490,37 +489,7 @@ export default function Home() {
               </DialogHeader>
               <div className="grid gap-4">
                 <div className="grid gap-3">
-                  <Label htmlFor="title-1">Title</Label>
-                  <Input
-                    id="title-1"
-                    type="text"
-                    name="title"
-                    placeholder="Learn"
-                    value={formData.title}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-                <div className="grid gap-3">
-                  <Label htmlFor="description-1">Description</Label>
-                  <Textarea
-                    id="description-1"
-                    name="description"
-                    placeholder="I will learn programming."
-                    value={formData.description}
-                    onChange={(e) => {
-                      setFormData((prevData) => ({
-                        ...prevData,
-                        description: e.target.value,
-                      }));
-                    }}
-                    className="min-h-[100px] resize-y"
-                    required
-                  />
-                </div>
-
-                <div className="grid gap-3">
-                  <Label htmlFor="dueDate">Due Date</Label>
+                  <Label htmlFor="dueDate">Deadline</Label>
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button
@@ -549,7 +518,7 @@ export default function Home() {
                             today: `border-slate-800 rounded-full`, // Add a border to today's date
                             selected: `bg-slate-800 border-amber-500 text-white rounded-full`, // Highlight the selected day
                             root: `${defaultClassNames.root} shadow-lg p-5`, // Add a shadow to the root element
-                            chevron: `fill-slate-800 rounded-full` // Change the color of the chevron
+                            chevron: `fill-slate-800 rounded-full`, // Change the color of the chevron
                           }}
                           disabled={(date) => date < today}
                         />
@@ -572,6 +541,36 @@ export default function Home() {
                       </div>
                     </PopoverContent>
                   </Popover>
+                </div>
+
+                <div className="grid gap-3">
+                  <Label htmlFor="title-1">Title</Label>
+                  <Input
+                    id="title-1"
+                    type="text"
+                    name="title"
+                    placeholder="Learn"
+                    value={formData.title}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+                <div className="grid gap-3">
+                  <Label htmlFor="description-1">Description</Label>
+                  <Textarea
+                    id="description-1"
+                    name="description"
+                    placeholder="I will learn programming."
+                    value={formData.description}
+                    onChange={(e) => {
+                      setFormData((prevData) => ({
+                        ...prevData,
+                        description: e.target.value,
+                      }));
+                    }}
+                    className="min-h-[100px] resize-y"
+                    required
+                  />
                 </div>
 
                 <div className="grid gap-3">
@@ -719,7 +718,7 @@ export default function Home() {
                   <div className="flex justify-between items-center">
                     <h3 className="font-semibold text-lg">{task.title}</h3>
                     <span className="text-sm text-slate-800">
-                      Due: {format(new Date(task.due_date), "PPP HH:mm")}
+                      Deadline: {format(new Date(task.due_date), "PPP HH:mm")}
                     </span>
                   </div>
                 </div>
@@ -731,7 +730,7 @@ export default function Home() {
               open={selectedTask !== null}
               onOpenChange={(open) => !open && setSelectedTask(null)}
             >
-              <DialogContent className="sm:max-w-[425px]">
+              <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
                 <form onSubmit={handleUpdateTask}>
                   <DialogHeader>
                     <DialogTitle>Task Details</DialogTitle>
@@ -740,6 +739,95 @@ export default function Home() {
                     </DialogDescription>
                   </DialogHeader>
                   <div className="grid gap-2 py-4">
+                    <Label>Deadline</Label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-full justify-start text-left font-normal",
+                            !selectedTask?.due_date && "text-muted-foreground"
+                          )}
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {selectedTask?.due_date ? (
+                            format(new Date(selectedTask.due_date), "PPP HH:mm")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <DayPicker
+                          animate
+                          mode="single"
+                          selected={
+                            selectedTask?.due_date
+                              ? new Date(selectedTask.due_date)
+                              : undefined
+                          }
+                          onSelect={(date) =>
+                            date &&
+                            setSelectedTask((prev) =>
+                              prev ? { ...prev, due_date: date } : null
+                            )
+                          }
+                          classNames={{
+                            today: `border-slate-800 rounded-full`, // Add a border to today's date
+                            selected: `bg-slate-800 border-amber-500 text-white rounded-full`, // Highlight the selected day
+                            root: `${defaultClassNames.root} shadow-lg p-5`, // Add a shadow to the root element
+                            chevron: `fill-slate-800 rounded-full`, // Change the color of the chevron
+                          }}
+                          disabled={(date) => date < today}
+                        />
+                        {/* <Calendar
+                          mode="single"
+                          selected={
+                            selectedTask?.due_date
+                              ? new Date(selectedTask.due_date)
+                              : undefined
+                          }
+                          onSelect={(date) =>
+                            date &&
+                            setSelectedTask((prev) =>
+                              prev ? { ...prev, due_date: date } : null
+                            )
+                          }
+                          initialFocus
+                        /> */}
+                        <div className="p-3 border-t border-border">
+                          <Input
+                            type="time"
+                            value={
+                              selectedTask?.due_date
+                                ? format(
+                                    new Date(selectedTask.due_date),
+                                    "HH:mm"
+                                  )
+                                : ""
+                            }
+                            onChange={(e) => {
+                              if (selectedTask?.due_date) {
+                                const [hours, minutes] =
+                                  e.target.value.split(":");
+                                const newDate = set(
+                                  new Date(selectedTask.due_date),
+                                  {
+                                    hours: parseInt(hours),
+                                    minutes: parseInt(minutes),
+                                  }
+                                );
+                                setSelectedTask((prev) =>
+                                  prev ? { ...prev, due_date: newDate } : null
+                                );
+                              }
+                            }}
+                          />
+                        </div>
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                  <div className="grid gap-2 pb-4">
                     <Label htmlFor="title-1">Title</Label>
                     <Input
                       id="title-1"
@@ -834,73 +922,7 @@ export default function Home() {
                     </Select>
                   </div>
 
-                  <div className="grid gap-2 pb-4">
-                    <Label>Due Date</Label>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "w-full justify-start text-left font-normal",
-                            !selectedTask?.due_date && "text-muted-foreground"
-                          )}
-                        >
-                          <CalendarIcon className="mr-2 h-4 w-4" />
-                          {selectedTask?.due_date ? (
-                            format(new Date(selectedTask.due_date), "PPP HH:mm")
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={
-                            selectedTask?.due_date
-                              ? new Date(selectedTask.due_date)
-                              : undefined
-                          }
-                          onSelect={(date) =>
-                            date &&
-                            setSelectedTask((prev) =>
-                              prev ? { ...prev, due_date: date } : null
-                            )
-                          }
-                          initialFocus
-                        />
-                        <div className="p-3 border-t border-border">
-                          <Input
-                            type="time"
-                            value={
-                              selectedTask?.due_date
-                                ? format(
-                                    new Date(selectedTask.due_date),
-                                    "HH:mm"
-                                  )
-                                : ""
-                            }
-                            onChange={(e) => {
-                              if (selectedTask?.due_date) {
-                                const [hours, minutes] =
-                                  e.target.value.split(":");
-                                const newDate = set(
-                                  new Date(selectedTask.due_date),
-                                  {
-                                    hours: parseInt(hours),
-                                    minutes: parseInt(minutes),
-                                  }
-                                );
-                                setSelectedTask((prev) =>
-                                  prev ? { ...prev, due_date: newDate } : null
-                                );
-                              }
-                            }}
-                          />
-                        </div>
-                      </PopoverContent>
-                    </Popover>
-                  </div>
+                 
 
                   <div className="grid gap-2 pb-4">
                     <Label htmlFor="task_image"> Attachment</Label>
