@@ -157,7 +157,7 @@ export default function Login() {
             </button>
 
             <div className="mt-4">
-              Don't have and account?{" "}
+              Don't have an account?{" "}
               <Link to="/signup" className="underline">
                 Sign up here
               </Link>
